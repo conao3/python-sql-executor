@@ -1,7 +1,17 @@
 import argparse
+import contextlib
 import sys
+import time
 
 import sqlalchemy as sa
+
+@contextlib.contextmanager
+def timewatch():
+    start = time.time()
+    yield
+    end = time.time()
+    m, s = divmod(end - start, 60)
+    print(f'Time: {m:.0f}:{s:05.02f}')
 
 
 def parse_args() -> argparse.Namespace:
@@ -20,9 +30,11 @@ def main() -> None:
             sql = sql_.strip() + ";"
 
             try:
-                res = conn.execute(sa.text(sql))
-                print(f'SQL: {sql.splitlines()[0]}')
-                print(f'Rows affected: {res.rowcount}')
+                with timewatch():
+                    res = conn.execute(sa.text(sql))
+                    print(f'SQL: {sql.splitlines()[0]}')
+                    print(f'Rows affected: {res.rowcount}')
+
                 print()
 
             except Exception as e:
