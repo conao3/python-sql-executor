@@ -1,4 +1,6 @@
 import argparse
+import sys
+
 import sqlalchemy as sa
 
 
@@ -14,5 +16,17 @@ def main() -> None:
 
     engine = sa.create_engine(args.url)
     with engine.connect() as conn:
-        result = conn.execute(sa.text('SELECT 1'))
-        print(result.fetchone())
+        for sql_ in sys.stdin.read().split(";"):
+            sql = sql_.strip() + ";"
+
+            try:
+                res = conn.execute(sa.text(sql))
+                print(f'SQL: {sql.splitlines()[0]}')
+                print(f'Rows affected: {res.rowcount}')
+                print()
+
+            except Exception as e:
+                if 'empty query' in str(e):
+                    continue  # ignore empty queries error
+
+                raise
