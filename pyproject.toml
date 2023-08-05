@@ -12,6 +12,7 @@ sql-executor = "sql_executor.__main__:main"
 [tool.poetry.dependencies]
 python = "^3.11"
 sqlalchemy = "^2.0.19"
+psycopg2-binary = "^2.9.6"
 
 [build-system]
 requires = ["poetry-core"]
