@@ -11,7 +11,8 @@ def timewatch():
     yield
     end = time.time()
     m, s = divmod(end - start, 60)
-    print(f'Time: {m:02.0f}:{s:05.02f}')
+    h, m = divmod(m, 60)
+    print(f'Time: {h:02.0f}:{m:02.0f}:{s:05.02f}')
 
 
 def parse_args() -> argparse.Namespace:
