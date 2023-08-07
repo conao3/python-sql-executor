@@ -32,8 +32,8 @@ def main() -> None:
 
             try:
                 with timewatch():
-                    res = conn.execute(sa.text(sql))
                     print(f'SQL: {sql.splitlines()[0]}')
+                    res = conn.execute(sa.text(sql))
                     print(f'Rows affected: {res.rowcount}')
 
                 print()
