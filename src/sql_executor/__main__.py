@@ -43,3 +43,5 @@ def main() -> None:
                     continue  # ignore empty queries error
 
                 raise
+
+        conn.commit()
